@@ -1,32 +1,51 @@
 from flask import Flask, render_template, request
-import numpy as np
 import pickle
+import numpy as np
 
 app = Flask(__name__)
-
-# Load the model
 model = pickle.load(open('model.pkl', 'rb'))
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def home():
-    prediction = None
-    if request.method == 'POST':
-        try:
-            # Replace with actual features from your dataset
-            age = float(request.form['age'])
-            distance = float(request.form['distance'])
-            income = float(request.form['income'])
-            job_level = int(request.form['job_level'])
+    return render_template('form.html', prediction=None)
 
-            # Build input array (adjust order & fields to match training)
-            input_data = np.array([[age, distance, income, job_level]])
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        # Extracting input from form
+        features = [
+            float(request.form['Age']),
+            float(request.form['BusinessTravel']),
+            float(request.form['DailyRate']),
+            float(request.form['Department']),
+            float(request.form['DistanceFromHome']),
+            float(request.form['Education']),
+            float(request.form['EducationField']),
+            float(request.form['Gender']),
+            float(request.form['HourlyRate']),
+            float(request.form['JobInvolvement']),
+            float(request.form['JobLevel']),
+            float(request.form['JobRole']),
+            float(request.form['JobSatisfaction']),
+            float(request.form['MaritalStatus']),
+            float(request.form['MonthlyIncome']),
+            float(request.form['NumCompaniesWorked']),
+            float(request.form['OverTime']),
+            float(request.form['PercentSalaryHike']),
+            float(request.form['TotalWorkingYears']),
+            float(request.form['YearsAtCompany']),
+            float(request.form['YearsInCurrentRole']),
+            float(request.form['YearsSinceLastPromotion']),
+            float(request.form['YearsWithCurrManager'])
+        ]
 
-            pred = model.predict(input_data)[0]
-            prediction = 'Yes' if pred == 1 else 'No'
-        except Exception as e:
-            prediction = f"Error: {e}"
+        final_input = np.array(features).reshape(1, -1)
+        prediction = model.predict(final_input)[0]
 
-    return render_template('form.html', prediction=prediction)
+        return render_template('form.html', prediction="Yes" if prediction == 1 else "No")
+
+    except Exception as e:
+        return f"❌ Error: {e}"
 
 if __name__ == '__main__':
     app.run(debug=True)
