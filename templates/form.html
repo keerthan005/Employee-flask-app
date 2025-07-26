@@ -1,28 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Employee Attrition Prediction</title>
+    <title>HR Attrition Predictor</title>
+    <style>
+        body { font-family: Arial; background: #f1f1f1; padding: 40px; }
+        form { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; }
+        input, select { width: 100%; padding: 10px; margin: 10px 0; }
+        input[type=submit] { background: #28a745; color: white; border: none; cursor: pointer; }
+        .result { text-align: center; font-size: 1.2em; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <h2>Will this employee leave?</h2>
-    <form method="POST">
-        <label>Age:</label>
-        <input type="number" name="age" required><br><br>
+    <h2 style="text-align:center;">HR Attrition Prediction Form</h2>
 
-        <label>Distance From Home:</label>
-        <input type="number" name="distance" required><br><br>
-
-        <label>Monthly Income:</label>
-        <input type="number" name="income" required><br><br>
-
-        <label>Job Level:</label>
-        <input type="number" name="job_level" required><br><br>
+    <form action="/predict" method="post">
+        <label>Age:</label><input type="number" name="Age" required>
+        <label>Business Travel (0-2):</label><input type="number" name="BusinessTravel" min="0" max="2" required>
+        <label>Daily Rate:</label><input type="number" name="DailyRate" required>
+        <label>Department (0-2):</label><input type="number" name="Department" min="0" max="2" required>
+        <label>Distance From Home:</label><input type="number" name="DistanceFromHome" required>
+        <label>Education (1-5):</label><input type="number" name="Education" min="1" max="5" required>
+        <label>Education Field (0-5):</label><input type="number" name="EducationField" min="0" max="5" required>
+        <label>Gender (0-Female, 1-Male):</label><input type="number" name="Gender" min="0" max="1" required>
+        <label>Hourly Rate:</label><input type="number" name="HourlyRate" required>
+        <label>Job Involvement (1-4):</label><input type="number" name="JobInvolvement" min="1" max="4" required>
+        <label>Job Level:</label><input type="number" name="JobLevel" required>
+        <label>Job Role (0-8):</label><input type="number" name="JobRole" min="0" max="8" required>
+        <label>Job Satisfaction (1-4):</label><input type="number" name="JobSatisfaction" min="1" max="4" required>
+        <label>Marital Status (0-2):</label><input type="number" name="MaritalStatus" min="0" max="2" required>
+        <label>Monthly Income:</label><input type="number" name="MonthlyIncome" required>
+        <label>Num Companies Worked:</label><input type="number" name="NumCompaniesWorked" required>
+        <label>OverTime (0-No, 1-Yes):</label><input type="number" name="OverTime" min="0" max="1" required>
+        <label>Percent Salary Hike:</label><input type="number" name="PercentSalaryHike" required>
+        <label>Total Working Years:</label><input type="number" name="TotalWorkingYears" required>
+        <label>Years At Company:</label><input type="number" name="YearsAtCompany" required>
+        <label>Years In Current Role:</label><input type="number" name="YearsInCurrentRole" required>
+        <label>Years Since Last Promotion:</label><input type="number" name="YearsSinceLastPromotion" required>
+        <label>Years With Curr Manager:</label><input type="number" name="YearsWithCurrManager" required>
 
         <input type="submit" value="Predict">
     </form>
 
-    {% if prediction %}
-        <h3>Prediction: {{ prediction }}</h3>
+    {% if prediction is not none %}
+    <div class="result">
+        Prediction: {{ prediction }}
+    </div>
     {% endif %}
 </body>
 </html>
