@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Attrition Prediction</title>
+</head>
+<body>
+    <h2>Will this employee leave?</h2>
+    <form method="POST">
+        <label>Age:</label>
+        <input type="number" name="age" required><br><br>
+
+        <label>Distance From Home:</label>
+        <input type="number" name="distance" required><br><br>
+
+        <label>Monthly Income:</label>
+        <input type="number" name="income" required><br><br>
+
+        <label>Job Level:</label>
+        <input type="number" name="job_level" required><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction %}
+        <h3>Prediction: {{ prediction }}</h3>
+    {% endif %}
+</body>
+</html>
